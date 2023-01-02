@@ -44,21 +44,53 @@ const questionsStock = [
 	},
 ];
 
-function setQuestion() {
-	questionsObject.innerText = questionsStock[currentQuestionIndex].question;
-	answersObjects.forEach((element) => {
-		if (element.classList.contains('answerA')) {
-			element.innerText = questionsStock[currentQuestionIndex].answers[0].text;
-		} else if (element.classList.contains('answerB')) {
-			element.innerText = questionsStock[currentQuestionIndex].answers[1].text;
-		} else if (element.classList.contains('answerC')) {
-			element.innerText = questionsStock[currentQuestionIndex].answers[2].text;
-		} else if (element.classList.contains('answerD')) {
-			element.innerText = questionsStock[currentQuestionIndex].answers[3].text;
-		}
-	});
-	currentQuestionIndex++;
+function startGame() {
+	if (currentQuestionIndex <= 0) {
+		questionsObject.innerText = questionsStock[currentQuestionIndex].question;
+		answersObjects.forEach((element) => {
+			if (element.classList.contains('answerA')) {
+				element.innerText =
+					questionsStock[currentQuestionIndex].answers[0].text;
+			} else if (element.classList.contains('answerB')) {
+				element.innerText =
+					questionsStock[currentQuestionIndex].answers[1].text;
+			} else if (element.classList.contains('answerC')) {
+				element.innerText =
+					questionsStock[currentQuestionIndex].answers[2].text;
+			} else if (element.classList.contains('answerD')) {
+				element.innerText =
+					questionsStock[currentQuestionIndex].answers[3].text;
+			}
+		});
+		currentQuestionIndex++;
+	} else {
+		alert('Gra została już rozpoczęta');
+	}
 }
 
-console.log(questionsStock.le);
-btnPlay.addEventListener('click', setQuestion);
+function checkIfSelected(element) {
+	let counter = 0;
+	element.forEach((elem) => {
+		if (elem.classList.contains('selected')) {
+			counter++;
+		}
+	});
+	if (counter <= 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function selectAnswer(event) {
+	if (checkIfSelected(answersObjects) == true) {
+		let selectedA = event.target;
+		selectedA.style.border = '10px solid #7f5af0';
+		selectedA.classList.add('selected');
+	} else alert('coś wybrano');
+}
+
+btnPlay.addEventListener('click', startGame);
+answersObjects.forEach((element) =>
+	element.addEventListener('click', selectAnswer)
+);
