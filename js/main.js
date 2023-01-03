@@ -1,7 +1,9 @@
 const questionsObject = document.querySelector('.question');
 const btnPlay = document.querySelector('.btn-start');
 const answersObjects = document.querySelectorAll('.answer');
+const btnConfirmAnswer = document.querySelector('.btn-confirm');
 let currentQuestionIndex = 0;
+let correctAnswer;
 const questionsStock = [
 	{
 		question: 'Kto był pierwszym królem polski?',
@@ -62,9 +64,39 @@ function startGame() {
 					questionsStock[currentQuestionIndex].answers[3].text;
 			}
 		});
-		currentQuestionIndex++;
+	}
+	findRightAnswer();
+}
+
+function nextQuestion() {
+	currentQuestionIndex++;
+	questionsObject.innerText = questionsStock[currentQuestionIndex].question;
+	answersObjects.forEach((element) => {
+		if (element.classList.contains('answerA')) {
+			element.innerText = questionsStock[currentQuestionIndex].answers[0].text;
+		} else if (element.classList.contains('answerB')) {
+			element.innerText = questionsStock[currentQuestionIndex].answers[1].text;
+		} else if (element.classList.contains('answerC')) {
+			element.innerText = questionsStock[currentQuestionIndex].answers[2].text;
+		} else if (element.classList.contains('answerD')) {
+			element.innerText = questionsStock[currentQuestionIndex].answers[3].text;
+		}
+	});
+	findRightAnswer();
+}
+
+function checkSelectedAnswer() {
+	let choosenOne;
+	answersObjects.forEach((element) => {
+		if (element.classList.contains('selected')) {
+			choosenOne = element;
+		}
+	});
+	if (choosenOne.innerText == correctAnswer) {
+		alert('Wygrałeś!');
+		nextQuestion();
 	} else {
-		alert('Gra została już rozpoczęta');
+		alert('Przegrałeś!');
 	}
 }
 
@@ -90,7 +122,17 @@ function selectAnswer(event) {
 	} else alert('coś wybrano');
 }
 
+function findRightAnswer() {
+	questionsStock[currentQuestionIndex].answers.forEach((element) => {
+		if (element.correct == true) {
+			correctAnswer = element.text;
+		}
+	});
+}
+
 btnPlay.addEventListener('click', startGame);
 answersObjects.forEach((element) =>
 	element.addEventListener('click', selectAnswer)
 );
+
+btnConfirmAnswer.addEventListener('click', checkSelectedAnswer);
