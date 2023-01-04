@@ -65,6 +65,11 @@ a:not([class]) {
 		scroll-behavior: auto !important;
 	}
 }
+
+.current-question {
+	background-color: red;
+}
+
 body {
 	width: 100vw;
 	height: 100vh;
@@ -83,6 +88,7 @@ body {
 		background-color: #72757e;
 		justify-content: space-around;
 		align-items: center;
+		position: relative;
 		.game-tittle {
 			display: flex;
 			align-items: center;
@@ -113,6 +119,24 @@ body {
 			justify-content: center;
 			font-size: 24px;
 			cursor: pointer;
+		}
+		.award-stages {
+			position: absolute;
+			height: 800px;
+			width: 200px;
+			background-color: black;
+			right: -200px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-around;
+			.stage {
+				width: 80%;
+				height: 40px;
+				background-color: white;
+				color: #010101;
+				text-align: center;
+			}
 		}
 		.answers-container {
 			width: 1199px;

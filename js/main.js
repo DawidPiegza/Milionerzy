@@ -2,6 +2,9 @@ const questionsObject = document.querySelector('.question');
 const btnPlay = document.querySelector('.btn-start');
 const answersObjects = document.querySelectorAll('.answer');
 const btnConfirmAnswer = document.querySelector('.btn-confirm');
+const awardsObjects = document.querySelectorAll('.stage');
+const btnExitGame = document.querySelector('.btn-exit');
+let guearantedMoney;
 let currentQuestionIndex = 0;
 let correctAnswer;
 const questionsStock = [
@@ -28,11 +31,11 @@ const questionsStock = [
 		answers: [
 			{
 				text: 'Jest to skrót oznaczający wirtualną sieć lokalną',
-				correct: false,
+				correct: true,
 			},
 			{
 				text: 'Jest to skrót oznaczający graficzne przedstawienie infrastruktury sieci',
-				correct: true,
+				correct: false,
 			},
 			{
 				text: 'Jest to skrót oznaczający połączenie między adresem wewnętrznym a adresem publicznym',
@@ -66,6 +69,7 @@ function startGame() {
 		});
 	}
 	findRightAnswer();
+	markCurrentStage();
 }
 
 function nextQuestion() {
@@ -83,6 +87,7 @@ function nextQuestion() {
 		}
 	});
 	findRightAnswer();
+	markCurrentStage();
 }
 
 function checkSelectedAnswer() {
@@ -93,10 +98,17 @@ function checkSelectedAnswer() {
 		}
 	});
 	if (choosenOne.innerText == correctAnswer) {
-		alert('Wygrałeś!');
+		alert(`Wygrałeś! ${awardsObjects[currentQuestionIndex].innerText} `);
+		answersObjects.forEach((element) => element.classList.remove('selected'));
+		answersObjects.forEach((element) => (element.style.border = null));
+		if (currentQuestionIndex == 1 || currentQuestionIndex == 7) {
+			guearantedMoney = awardsObjects[currentQuestionIndex].innerText;
+			alert(`Gratulacje, masz gwarantowane ${guearantedMoney}`);
+		}
 		nextQuestion();
 	} else {
 		alert('Przegrałeś!');
+		window.location.reload();
 	}
 }
 
@@ -119,7 +131,13 @@ function selectAnswer(event) {
 		let selectedA = event.target;
 		selectedA.style.border = '10px solid #7f5af0';
 		selectedA.classList.add('selected');
-	} else alert('coś wybrano');
+	} else {
+		answersObjects.forEach((element) => element.classList.remove('selected'));
+		answersObjects.forEach((element) => (element.style.border = null));
+		let selectedB = event.target;
+		selectedB.style.border = '10px solid #7f5af0';
+		selectedB.classList.add('selected');
+	}
 }
 
 function findRightAnswer() {
@@ -130,9 +148,30 @@ function findRightAnswer() {
 	});
 }
 
+function markCurrentStage() {
+	for (
+		let index = currentQuestionIndex;
+		index <= currentQuestionIndex;
+		index++
+	) {
+		awardsObjects[index - 1].style.backgroundColor = 'grey';
+		awardsObjects[index].style.backgroundColor = 'red';
+	}
+}
+
+function dropGame() {
+	alert(
+		`Gratulacje! Wygrałeś dzisiaj ${
+			awardsObjects[currentQuestionIndex - 1].innerText
+		}`
+	);
+	window.location.reload();
+}
+
 btnPlay.addEventListener('click', startGame);
 answersObjects.forEach((element) =>
 	element.addEventListener('click', selectAnswer)
 );
 
 btnConfirmAnswer.addEventListener('click', checkSelectedAnswer);
+btnExitGame.addEventListener('click', dropGame);
