@@ -1,20 +1,24 @@
-const questionsObject = document.querySelector('.question');
+const questionsArray = document.querySelector('.question');
+const awardsArray = document.querySelectorAll('.stage');
+const answersArray = document.querySelectorAll('.answer');
+
 const btnPlay = document.querySelector('.btn-start');
-const answersObjects = document.querySelectorAll('.answer');
 const btnConfirmAnswer = document.querySelector('.btn-confirm');
-const awardsObjects = document.querySelectorAll('.stage');
 const btnExitGame = document.querySelector('.btn-exit');
-let guearantedMoney;
+
 let currentQuestionIndex = 0;
+let guarantedMoney;
 let correctAnswer;
+
 const questionsStock = [
 	{
-		question: 'Kto był pierwszym królem polski?',
+		question:
+			'Gdy Neil Armstron stanął na Księżycu, wypowiedział słynne zdanie. Co na Srebrnym Globie zrobił Alan Shepard?',
 		answers: [
-			{ text: 'Mieszko I', correct: false },
-			{ text: 'Bolesław Chrobry', correct: true },
-			{ text: 'Kazmierz Wielki', correct: false },
-			{ text: 'Władysław IV', correct: false },
+			{ text: 'Zagrał w golfa', correct: true },
+			{ text: 'Biegał z siatką na motyle', correct: false },
+			{ text: 'Zatańczył rock and rolla', correct: false },
+			{ text: 'Godzinę leżał krzyżem', correct: false },
 		],
 	},
 	{
@@ -27,32 +31,224 @@ const questionsStock = [
 		],
 	},
 	{
-		question: 'Co oznacza akronim VLAN?',
+		question:
+			'Co mieści Wielki Łuk Braterstwa w paryskiej dzielnicy La Defense, zwany dwudziestowieczną wersją Łuku Triumfalnego?',
 		answers: [
 			{
-				text: 'Jest to skrót oznaczający wirtualną sieć lokalną',
+				text: 'Szczątki Napoleona I',
+				correct: false,
+			},
+			{
+				text: 'Nic',
+				correct: false,
+			},
+			{
+				text: 'Ziemię z pól bitewnych',
+				correct: false,
+			},
+			{
+				text: 'Biura ministerstwa ekologii',
+				correct: true,
+			},
+		],
+	},
+	{
+		question: 'Kto jest twórcą logo zespołu Perfect?',
+		answers: [
+			{
+				text: 'Andrzej Mleczko',
+				correct: false,
+			},
+			{
+				text: 'Henryk Sawka',
+				correct: false,
+			},
+			{
+				text: 'Marek Raczkowski',
+				correct: false,
+			},
+			{
+				text: 'Edward Lutczyn',
+				correct: true,
+			},
+		],
+	},
+	{
+		question: 'Na co reaguje nocyceptor?',
+		answers: [
+			{
+				text: 'Na mroki nocy',
+				correct: false,
+			},
+			{
+				text: 'Na słodki smak',
+				correct: false,
+			},
+			{
+				text: 'Na podczerwień małej mocy',
+				correct: false,
+			},
+			{
+				text: 'Na bodźce uszkadzające tkanki',
+				correct: true,
+			},
+		],
+	},
+	{
+		question: 'Z czego odlane są złote medale olimpijskie?',
+		answers: [
+			{
+				text: 'Ze złota',
+				correct: false,
+			},
+			{
+				text: 'Z brązu',
+				correct: false,
+			},
+			{
+				text: 'Z żeliwa',
+				correct: false,
+			},
+			{
+				text: 'Ze srebra',
+				correct: true,
+			},
+		],
+	},
+	{
+		question:
+			'W 1971 r. psycholog Philip Zimbardo przeprowadził eksperyment symulujący:',
+		answers: [
+			{
+				text: 'życie rozbitków na wyspie',
+				correct: false,
+			},
+			{
+				text: 'przebywanie w kosmosie',
+				correct: false,
+			},
+			{
+				text: 'życie w więzieniu',
 				correct: true,
 			},
 			{
-				text: 'Jest to skrót oznaczający graficzne przedstawienie infrastruktury sieci',
+				text: 'odbijanie zakładników',
+				correct: false,
+			},
+		],
+	},
+	{
+		question:
+			'XVII-wieczna seria konfliktów między Ligą Katolicką a Unią Protestancką trwała:',
+		answers: [
+			{
+				text: '10 lat',
 				correct: false,
 			},
 			{
-				text: 'Jest to skrót oznaczający połączenie między adresem wewnętrznym a adresem publicznym',
+				text: '30 lat',
+				correct: true,
+			},
+			{
+				text: '50 lat',
 				correct: false,
 			},
 			{
-				text: 'Jest to skrót oznaczający zasięg sieci wirtualnej',
+				text: '100 lat',
+				correct: false,
+			},
+		],
+	},
+	{
+		question: 'Jak nazywa się poprzednik systemu Windows?',
+		answers: [
+			{
+				text: 'Linux',
+				correct: false,
+			},
+			{
+				text: 'OS X',
+				correct: false,
+			},
+			{
+				text: 'MS-DOS',
+				correct: true,
+			},
+			{
+				text: 'DOS',
+				correct: false,
+			},
+		],
+	},
+	{
+		question: 'Jak nazywa się pustynia w Chile?',
+		answers: [
+			{
+				text: 'Atakama',
+				correct: true,
+			},
+			{
+				text: 'Kalahari',
+				correct: false,
+			},
+			{
+				text: 'Sahara',
+				correct: false,
+			},
+			{
+				text: 'Pustynia Wiktorii',
+				correct: false,
+			},
+		],
+	},
+	{
+		question: 'Jak nazywa się waluta używana w Laosie?',
+		answers: [
+			{
+				text: 'kip',
+				correct: true,
+			},
+			{
+				text: 'bat',
+				correct: false,
+			},
+			{
+				text: 'lir',
+				correct: false,
+			},
+			{
+				text: 'dồng',
+				correct: false,
+			},
+		],
+	},
+	{
+		question: 'Gdzie znajduje się Lubumbashi?',
+		answers: [
+			{
+				text: 'w Etiopii',
+				correct: false,
+			},
+			{
+				text: 'w Demokratycznej Republice Konga',
+				correct: true,
+			},
+			{
+				text: 'w Senegalu',
+				correct: false,
+			},
+			{
+				text: 'w Tunezji',
 				correct: false,
 			},
 		],
 	},
 ];
 
-function startGame() {
+function startNewGame() {
 	if (currentQuestionIndex <= 0) {
-		questionsObject.innerText = questionsStock[currentQuestionIndex].question;
-		answersObjects.forEach((element) => {
+		questionsArray.innerText = questionsStock[currentQuestionIndex].question;
+		answersArray.forEach((element) => {
 			if (element.classList.contains('answerA')) {
 				element.innerText =
 					questionsStock[currentQuestionIndex].answers[0].text;
@@ -72,10 +268,10 @@ function startGame() {
 	markCurrentStage();
 }
 
-function nextQuestion() {
+function goToNextQuestion() {
 	currentQuestionIndex++;
-	questionsObject.innerText = questionsStock[currentQuestionIndex].question;
-	answersObjects.forEach((element) => {
+	questionsArray.innerText = questionsStock[currentQuestionIndex].question;
+	answersArray.forEach((element) => {
 		if (element.classList.contains('answerA')) {
 			element.innerText = questionsStock[currentQuestionIndex].answers[0].text;
 		} else if (element.classList.contains('answerB')) {
@@ -92,20 +288,20 @@ function nextQuestion() {
 
 function checkSelectedAnswer() {
 	let choosenOne;
-	answersObjects.forEach((element) => {
+	answersArray.forEach((element) => {
 		if (element.classList.contains('selected')) {
 			choosenOne = element;
 		}
 	});
 	if (choosenOne.innerText == correctAnswer) {
-		alert(`Wygrałeś! ${awardsObjects[currentQuestionIndex].innerText} `);
-		answersObjects.forEach((element) => element.classList.remove('selected'));
-		answersObjects.forEach((element) => (element.style.border = null));
+		alert(`Wygrałeś! ${awardsArray[currentQuestionIndex].innerText} `);
+		answersArray.forEach((element) => element.classList.remove('selected'));
+		answersArray.forEach((element) => (element.style.border = null));
 		if (currentQuestionIndex == 1 || currentQuestionIndex == 7) {
-			guearantedMoney = awardsObjects[currentQuestionIndex].innerText;
-			alert(`Gratulacje, masz gwarantowane ${guearantedMoney}`);
+			guarantedMoney = awardsArray[currentQuestionIndex].innerText;
+			alert(`Gratulacje, masz gwarantowane ${guarantedMoney}`);
 		}
-		nextQuestion();
+		goToNextQuestion();
 	} else {
 		alert('Przegrałeś!');
 		window.location.reload();
@@ -127,15 +323,15 @@ function checkIfSelected(element) {
 }
 
 function selectAnswer(event) {
-	if (checkIfSelected(answersObjects) == true) {
+	if (checkIfSelected(answersArray) == true) {
 		let selectedA = event.target;
-		selectedA.style.border = '10px solid #7f5af0';
+		selectedA.style.backgroundColor = '#7f5af0';
 		selectedA.classList.add('selected');
 	} else {
-		answersObjects.forEach((element) => element.classList.remove('selected'));
-		answersObjects.forEach((element) => (element.style.border = null));
+		answersArray.forEach((element) => element.classList.remove('selected'));
+		answersArray.forEach((element) => (element.style.backgroundColor = null));
 		let selectedB = event.target;
-		selectedB.style.border = '10px solid #7f5af0';
+		selectedB.style.backgroundColor = '#7f5af0';
 		selectedB.classList.add('selected');
 	}
 }
@@ -154,24 +350,24 @@ function markCurrentStage() {
 		index <= currentQuestionIndex;
 		index++
 	) {
-		awardsObjects[index - 1].style.backgroundColor = 'grey';
-		awardsObjects[index].style.backgroundColor = 'red';
+		awardsArray[index - 1].style.backgroundColor = '#242629';
+		awardsArray[index].style.backgroundColor = '#7f5af0';
 	}
 }
 
-function dropGame() {
+function exitGame() {
 	alert(
 		`Gratulacje! Wygrałeś dzisiaj ${
-			awardsObjects[currentQuestionIndex - 1].innerText
+			awardsArray[currentQuestionIndex - 1].innerText
 		}`
 	);
 	window.location.reload();
 }
 
-btnPlay.addEventListener('click', startGame);
-answersObjects.forEach((element) =>
+btnPlay.addEventListener('click', startNewGame);
+answersArray.forEach((element) =>
 	element.addEventListener('click', selectAnswer)
 );
 
 btnConfirmAnswer.addEventListener('click', checkSelectedAnswer);
-btnExitGame.addEventListener('click', dropGame);
+btnExitGame.addEventListener('click', exitGame);
