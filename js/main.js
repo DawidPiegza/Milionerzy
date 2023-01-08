@@ -1,10 +1,15 @@
+const gameWindow = document.querySelector('.game-window');
 const questionsArray = document.querySelector('.question');
 const awardsArray = document.querySelectorAll('.stage');
 const answersArray = document.querySelectorAll('.answer');
+const popUpWindow = document.querySelector('.pop-up');
+const popUpMessage = document.querySelector('.info-message');
+const popUpAward = document.querySelector('.info-award');
+const popUpGuarantedMoney = document.querySelector('.info-guaranted-award');
 
-const btnPlay = document.querySelector('.btn-start');
 const btnConfirmAnswer = document.querySelector('.btn-confirm');
 const btnExitGame = document.querySelector('.btn-exit');
+const popUpButton = document.querySelector('.btn-pop-up');
 
 let currentQuestionIndex = 0;
 let guarantedMoney;
@@ -245,6 +250,22 @@ const questionsStock = [
 	},
 ];
 
+if (popUpWindow.classList.contains('fresh-game')) {
+	gameWindow.style.display = 'none';
+	popUpWindow.style.display = 'flex';
+	popUpButton.innerText = 'Nowa Gra';
+	popUpButton.addEventListener('click', () => {
+		classTogler();
+		startNewGame();
+	});
+}
+
+function classTogler() {
+	popUpWindow.classList.toggle('fresh-game');
+	gameWindow.style.display = null;
+	popUpWindow.style.display = null;
+}
+
 function startNewGame() {
 	if (currentQuestionIndex <= 0) {
 		questionsArray.innerText = questionsStock[currentQuestionIndex].question;
@@ -269,6 +290,7 @@ function startNewGame() {
 }
 
 function goToNextQuestion() {
+	closepopUpWindow();
 	currentQuestionIndex++;
 	questionsArray.innerText = questionsStock[currentQuestionIndex].question;
 	answersArray.forEach((element) => {
@@ -293,19 +315,38 @@ function checkSelectedAnswer() {
 			choosenOne = element;
 		}
 	});
-	if (choosenOne.innerText == correctAnswer) {
-		alert(`Wygrałeś! ${awardsArray[currentQuestionIndex].innerText} `);
+	if (choosenOne.innerText == correctAnswer && currentQuestionIndex !== 11) {
+		loadPopUpWindow();
+		popUpMessage.innerText = 'Odpowiedź jest poprawna';
+		popUpAward.innerText = `Wygrałeś: ${awardsArray[currentQuestionIndex].innerText}!`;
+		popUpGuarantedMoney.innerText = `Twoja ocecna gwarantowana wygrana to: ${guarantedMoney}`;
+		popUpButton.innerText = 'OK';
+		popUpButton.addEventListener('click', goToNextQuestion);
+
 		answersArray.forEach((element) => element.classList.remove('selected'));
-		answersArray.forEach((element) => (element.style.border = null));
-		if (currentQuestionIndex == 1 || currentQuestionIndex == 7) {
-			guarantedMoney = awardsArray[currentQuestionIndex].innerText;
-			alert(`Gratulacje, masz gwarantowane ${guarantedMoney}`);
-		}
-		goToNextQuestion();
+		answersArray.forEach((element) => (element.style.backgroundColor = null));
+	} else if (
+		choosenOne.innerText == correctAnswer &&
+		currentQuestionIndex == 11
+	) {
+		loadPopUpWindow();
+		popUpMessage.innerText = 'Odpowiedź jest poprawna';
+		popUpAward.innerText = 'Zostałeś milionerem';
+		popUpGuarantedMoney.style.display = 'none';
+		popUpButton.innerText = 'Zagraj Ponownie';
+		popUpButton.addEventListener('click', reloadGame);
 	} else {
-		alert('Przegrałeś!');
-		window.location.reload();
+		loadPopUpWindow();
+		popUpButton.innerText = 'OK';
+		popUpMessage.innerText = 'Przegraleś!';
+		popUpAward.style.display = 'none';
+		popUpGuarantedMoney.innerText = `Twoja dzisiejsza wygrana to: ${guarantedMoney}`;
+		popUpButton.addEventListener('click', reloadGame);
 	}
+}
+
+function reloadGame() {
+	window.location.reload();
 }
 
 function checkIfSelected(element) {
@@ -356,15 +397,24 @@ function markCurrentStage() {
 }
 
 function exitGame() {
-	alert(
-		`Gratulacje! Wygrałeś dzisiaj ${
-			awardsArray[currentQuestionIndex - 1].innerText
-		}`
-	);
-	window.location.reload();
+	loadPopUpWindow();
+	popUpButton.innerText = 'Zagraj ponownie!';
+	popUpMessage.style.display = 'none';
+	popUpAward.innerText = `Graylacje! Wygrałeś w dniu dzisiejszym: ${
+		awardsArray[currentQuestionIndex - 1].innerText
+	}!`;
+	popUpGuarantedMoney.style.display = 'none';
+	popUpButton.addEventListener('click', reloadGame);
 }
 
-btnPlay.addEventListener('click', startNewGame);
+function loadPopUpWindow() {
+	popUpWindow.style.display = 'flex';
+}
+
+function closepopUpWindow() {
+	popUpWindow.style.display = 'none';
+}
+
 answersArray.forEach((element) =>
 	element.addEventListener('click', selectAnswer)
 );
