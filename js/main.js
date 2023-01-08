@@ -12,7 +12,7 @@ const btnExitGame = document.querySelector('.btn-exit');
 const popUpButton = document.querySelector('.btn-pop-up');
 
 let currentQuestionIndex = 0;
-let guarantedMoney;
+let guarantedMoney = '0';
 let correctAnswer;
 
 const questionsStock = [
@@ -315,7 +315,13 @@ function checkSelectedAnswer() {
 			choosenOne = element;
 		}
 	});
+
 	if (choosenOne.innerText == correctAnswer && currentQuestionIndex !== 11) {
+		if (
+			awardsArray[currentQuestionIndex].classList.contains('stageGuaranted')
+		) {
+			guarantedMoney = awardsArray[currentQuestionIndex].innerHTML;
+		}
 		loadPopUpWindow();
 		popUpMessage.innerText = 'Odpowiedź jest poprawna';
 		popUpAward.innerText = `Wygrałeś: ${awardsArray[currentQuestionIndex].innerText}!`;
