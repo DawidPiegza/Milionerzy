@@ -337,7 +337,7 @@ function checkSelectedAnswer() {
 		popUpButton.addEventListener('click', reloadGame);
 	} else {
 		loadPopUpWindow();
-		popUpButton.innerText = 'OK';
+		popUpButton.innerText = 'Zagraj ponownie!';
 		popUpMessage.innerText = 'Przegraleś!';
 		popUpAward.style.display = 'none';
 		popUpGuarantedMoney.innerText = `Twoja dzisiejsza wygrana to: ${guarantedMoney}`;
@@ -386,13 +386,18 @@ function findRightAnswer() {
 }
 
 function markCurrentStage() {
-	for (
-		let index = currentQuestionIndex;
-		index <= currentQuestionIndex;
-		index++
-	) {
-		awardsArray[index - 1].style.backgroundColor = '#242629';
-		awardsArray[index].style.backgroundColor = '#7f5af0';
+	if (currentQuestionIndex == 0) {
+		awardsArray[currentQuestionIndex].style.backgroundColor = '#7f5af0';
+	}
+	if (currentQuestionIndex > 0) {
+		for (
+			let index = currentQuestionIndex;
+			index <= currentQuestionIndex;
+			index++
+		) {
+			awardsArray[index - 1].style.backgroundColor = '#242629';
+			awardsArray[index].style.backgroundColor = '#7f5af0';
+		}
 	}
 }
 

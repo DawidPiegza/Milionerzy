@@ -89,6 +89,7 @@ body .pop-up {
   align-items: center;
   padding-top: 300px;
   row-gap: 20px;
+  z-index: 10;
 }
 body .pop-up .control-buttons {
   width: 150px;
@@ -112,6 +113,7 @@ body .game-window {
   width: 1199px;
   height: 850px;
   overflow: hidden;
+  z-index: 0;
 }
 body .game-window .game-container {
   width: 90%;
