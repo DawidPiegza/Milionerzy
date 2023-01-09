@@ -88,6 +88,10 @@ body {
 		padding-top: 300px;
 		row-gap: 20px;
 		z-index: 10;
+		.info-message {
+			font-size: 32px;
+			font-weight: bold;
+		}
 		.control-buttons {
 			width: 150px;
 			height: 50px;

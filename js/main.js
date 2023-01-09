@@ -287,25 +287,21 @@ function classTogler() {
 }
 
 function startNewGame() {
-	if (currentQuestionIndex <= 0) {
-		questionsStock.sort(() => Math.random() - 0.5);
-		questionsArray.innerText = questionsStock[currentQuestionIndex].question;
-		answersArray.forEach((element) => {
-			if (element.classList.contains('answerA')) {
-				element.innerText =
-					questionsStock[currentQuestionIndex].answers[0].text;
-			} else if (element.classList.contains('answerB')) {
-				element.innerText =
-					questionsStock[currentQuestionIndex].answers[1].text;
-			} else if (element.classList.contains('answerC')) {
-				element.innerText =
-					questionsStock[currentQuestionIndex].answers[2].text;
-			} else if (element.classList.contains('answerD')) {
-				element.innerText =
-					questionsStock[currentQuestionIndex].answers[3].text;
-			}
-		});
-	}
+	// if (currentQuestionIndex <= 0) {
+	questionsStock.sort(() => Math.random() - 0.5);
+	questionsArray.innerText = questionsStock[currentQuestionIndex].question;
+	answersArray.forEach((element) => {
+		if (element.classList.contains('answerA')) {
+			element.innerText = questionsStock[currentQuestionIndex].answers[0].text;
+		} else if (element.classList.contains('answerB')) {
+			element.innerText = questionsStock[currentQuestionIndex].answers[1].text;
+		} else if (element.classList.contains('answerC')) {
+			element.innerText = questionsStock[currentQuestionIndex].answers[2].text;
+		} else if (element.classList.contains('answerD')) {
+			element.innerText = questionsStock[currentQuestionIndex].answers[3].text;
+		}
+	});
+	// }
 	findRightAnswer();
 	markCurrentStage();
 }
@@ -344,7 +340,7 @@ function checkSelectedAnswer() {
 			guarantedMoney = awardsArray[currentQuestionIndex].innerHTML;
 		}
 		loadPopUpWindow();
-		popUpMessage.innerText = 'Odpowiedź jest poprawna';
+		popUpMessage.innerText = 'Odpowiedź jest poprawna!';
 		popUpAward.innerText = `Wygrałeś: ${awardsArray[currentQuestionIndex].innerText}!`;
 		popUpGuarantedMoney.innerText = `Twoja ocecna gwarantowana wygrana to: ${guarantedMoney}`;
 		popUpButton.innerText = 'OK';
@@ -357,8 +353,8 @@ function checkSelectedAnswer() {
 		currentQuestionIndex == 11
 	) {
 		loadPopUpWindow();
-		popUpMessage.innerText = 'Odpowiedź jest poprawna';
-		popUpAward.innerText = 'Zostałeś milionerem';
+		popUpMessage.innerText = 'Gratulacje! Zostałeś milionerem!';
+		popUpAward.innerText = '💰💰💰';
 		popUpGuarantedMoney.style.display = 'none';
 		popUpButton.innerText = 'Zagraj Ponownie';
 		popUpButton.addEventListener('click', reloadGame);
@@ -431,9 +427,9 @@ function markCurrentStage() {
 function exitGame() {
 	loadPopUpWindow();
 	popUpButton.innerText = 'Zagraj ponownie!';
-	popUpMessage.style.display = 'none';
 	if (currentQuestionIndex > 0) {
-		popUpAward.innerText = `Graylacje! Wygrałeś w dniu dzisiejszym: ${
+		popUpMessage.innerText = 'Gratulacje!';
+		popUpAward.innerText = `W dniu dzisiejszym wygrałeś: ${
 			awardsArray[currentQuestionIndex - 1].innerText
 		}!`;
 	}
