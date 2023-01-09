@@ -436,7 +436,10 @@ function exitGame() {
 		awardsArray[currentQuestionIndex - 1].innerText
 	}!`;
 	popUpGuarantedMoney.style.display = 'none';
-	popUpButton.addEventListener('click', reloadGame);
+	popUpButton.addEventListener('click', () => {
+		reloadGame();
+		startNewGame();
+	});
 }
 
 function loadPopUpWindow() {
