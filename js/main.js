@@ -260,6 +260,25 @@ if (popUpWindow.classList.contains('fresh-game')) {
 	});
 }
 
+function shuffle(array) {
+	let currentIndex = array.length,
+		randomIndex;
+
+	// While there remain elements to shuffle.
+	while (currentIndex != 0) {
+		// Pick a remaining element.
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex--;
+
+		// And swap it with the current element.
+		[array[currentIndex], array[randomIndex]] = [
+			array[randomIndex],
+			array[currentIndex],
+		];
+	}
+
+	return array;
+}
 
 function classTogler() {
 	popUpWindow.classList.toggle('fresh-game');
@@ -269,9 +288,7 @@ function classTogler() {
 
 function startNewGame() {
 	if (currentQuestionIndex <= 0) {
-		questionsStock.sort(function () {
-			return Math.random() - 0.5;
-		});
+		questionsStock.sort(() => Math.random() - 0.5);
 		questionsArray.innerText = questionsStock[currentQuestionIndex].question;
 		answersArray.forEach((element) => {
 			if (element.classList.contains('answerA')) {
