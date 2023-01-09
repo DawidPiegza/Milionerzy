@@ -432,14 +432,13 @@ function exitGame() {
 	loadPopUpWindow();
 	popUpButton.innerText = 'Zagraj ponownie!';
 	popUpMessage.style.display = 'none';
-	popUpAward.innerText = `Graylacje! Wygrałeś w dniu dzisiejszym: ${
-		awardsArray[currentQuestionIndex - 1].innerText
-	}!`;
+	if (currentQuestionIndex > 0) {
+		popUpAward.innerText = `Graylacje! Wygrałeś w dniu dzisiejszym: ${
+			awardsArray[currentQuestionIndex - 1].innerText
+		}!`;
+	}
 	popUpGuarantedMoney.style.display = 'none';
-	popUpButton.addEventListener('click', () => {
-		reloadGame();
-		startNewGame();
-	});
+	popUpButton.addEventListener('click', reloadGame);
 }
 
 function loadPopUpWindow() {
