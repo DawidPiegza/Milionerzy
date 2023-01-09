@@ -260,6 +260,7 @@ if (popUpWindow.classList.contains('fresh-game')) {
 	});
 }
 
+
 function classTogler() {
 	popUpWindow.classList.toggle('fresh-game');
 	gameWindow.style.display = null;
@@ -268,6 +269,9 @@ function classTogler() {
 
 function startNewGame() {
 	if (currentQuestionIndex <= 0) {
+		questionsStock.sort(function () {
+			return Math.random() - 0.5;
+		});
 		questionsArray.innerText = questionsStock[currentQuestionIndex].question;
 		answersArray.forEach((element) => {
 			if (element.classList.contains('answerA')) {
